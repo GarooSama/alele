@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         <link rel="apple-touch-icon" sizes="180x180" href="/alele/img/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/alele/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/alele/img/favicon-16x16.png">
+        <link rel="manifest" href="/alele/img/site.webmanifest">
+        <link rel="mask-icon" href="/alele/img/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Changa" rel="stylesheet">
+        <title>جدول حلقات كونان</title>
+        <script type="text/javascript"
+                src='https://www.gstatic.com/charts/loader.js'></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart', 'controls']});
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawDashboard);
+
+            function drawDashboard() {
+
+                //begin data
+                var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12CFaMvhFTnvBd1qtg-IEttaDXrA_jVPMLg8nMVMS5hQ/gviz/tq?sheet=EPList&headers=1');
+
+                // Apply query language statement.
+                query.setQuery('SELECT * WHERE B is not null');
+
+
+                // Send the query with a callback function.
+                query.send(handleQueryResponse);
+
+            }
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+
+                var data = response.getDataTable();
+
+                // Everything is loaded. Assemble your dashboard...
+                var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
+
+                //Begin filter pickers
+                var MangaFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'mangafilter_div',
+                    'options': {
+                        'filterColumnIndex': '2',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+
+                var ImportantFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'importantfilter_div',
+                    'options': {
+                        'filterColumnIndex': '3',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+
+                var RecommendedFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'recommendedfilter_div',
+                    'options': {
+                        'filterColumnIndex': '4',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+
+                var OneHourSpecialFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'onehourspecialfilter_div',
+                    'options': {
+                        'filterColumnIndex': '5',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+
+                var TwoHoursSpecialFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'twohoursspecialfilter_div',
+                    'options': {
+                        'filterColumnIndex': '6',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+
+                var MovieFilter = new google.visualization.ControlWrapper({
+                    'controlType': 'CategoryFilter',
+                    'containerId': 'moviefilter_div',
+                    'options': {
+                        'filterColumnIndex': '7',
+                        'useFormattedValue': true,
+                        'ui': {
+                            'caption': 'الاختيارات',
+                            'labelStacking': 'vertical',
+                            'allowTyping': false
+                        }
+                    }
+                });
+                //End filter pickers
+
+                //Chart wrapper
+                var Chart= new google.visualization.ChartWrapper({
+                    "containerId": "chart_div",
+                    "chartType": "Table",
+                    "options": {
+                        "allowHtml": true,
+                        "alternatingRowStyle": true,
+                        "showRowNumber" : false,
+                        "sort" : "disable",
+                        "rtlTable" : true,
+                        "width" : "95%",
+                    },
+                    'view': {'columns': [0, 1]}
+                });
+
+                //binds
+                dashboard.bind([MangaFilter,ImportantFilter,RecommendedFilter,OneHourSpecialFilter,TwoHoursSpecialFilter,MovieFilter],Chart)
+                dashboard.draw(data);
+
+                //MangaCheckbox filter manipulator
+                var MangaCheck = document.getElementById("MangaCheckbox");		
+                var MangaFunction= function(){
+                    var checkbox = document.getElementById("MangaCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// MangaFilter.getControl().Gc.filter(notEmpty);
+                        MangaFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        MangaFilter.setState({"selectedValues":[]});
+                    }
+                    MangaFilter.draw();
+                };
+                if (MangaCheck.addEventListener) {  // all browsers except IE before version 9
+                    MangaCheck.addEventListener("click", MangaFunction, false);
+                } else {
+                    if (MangaCheck.attachEvent) {   // IE before version 9
+                        MangaCheck.attachEvent("click", MangaFunction);
+                    }
+                }
+                //ImportantCheckbox filter manipulator
+                var ImportantCheck = document.getElementById("ImportantCheckbox");		
+                var ImportantFunction= function(){
+                    var checkbox = document.getElementById("ImportantCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// ImportantFilter.getControl().Gc.filter(notEmpty);
+                        ImportantFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        ImportantFilter.setState({"selectedValues":[]});
+                    }
+                    ImportantFilter.draw();
+                };
+                if (ImportantCheck.addEventListener) {  // all browsers except IE before version 9
+                    ImportantCheck.addEventListener("click", ImportantFunction, false);
+                } else {
+                    if (ImportantCheck.attachEvent) {   // IE before version 9
+                        ImportantCheck.attachEvent("click", ImportantFunction);
+                    }
+                }
+                //RecommendedCheckbox filter manipulator
+                var RecommendedCheck = document.getElementById("RecommendedCheckbox");		
+                var RecommendedFunction= function(){
+                    var checkbox = document.getElementById("RecommendedCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// RecommendedFilter.getControl().Gc.filter(notEmpty);
+                        RecommendedFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        RecommendedFilter.setState({"selectedValues":[]});
+                    }
+                    RecommendedFilter.draw();
+                };
+                if (RecommendedCheck.addEventListener) {  // all browsers except IE before version 9
+                    RecommendedCheck.addEventListener("click", RecommendedFunction, false);
+                } else {
+                    if (RecommendedCheck.attachEvent) {   // IE before version 9
+                        RecommendedCheck.attachEvent("click", RecommendedFunction);
+                    }
+                }
+                //OneHourSpecialCheckbox filter manipulator
+                var OneHourSpecialCheck = document.getElementById("OneHourSpecialCheckbox");		
+                var OneHourSpecialFunction= function(){
+                    var checkbox = document.getElementById("OneHourSpecialCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// OneHourSpecialFilter.getControl().Gc.filter(notEmpty);
+                        OneHourSpecialFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        OneHourSpecialFilter.setState({"selectedValues":[]});
+                    }
+                    OneHourSpecialFilter.draw();
+                };
+                if (OneHourSpecialCheck.addEventListener) {  // all browsers except IE before version 9
+                    OneHourSpecialCheck.addEventListener("click", OneHourSpecialFunction, false);
+                } else {
+                    if (OneHourSpecialCheck.attachEvent) {   // IE before version 9
+                        OneHourSpecialCheck.attachEvent("click", OneHourSpecialFunction);
+                    }
+                }
+                //TwoHoursSpecialCheckbox filter manipulator
+                var TwoHoursSpecialCheck = document.getElementById("TwoHoursSpecialCheckbox");		
+                var TwoHoursSpecialFunction= function(){
+                    var checkbox = document.getElementById("TwoHoursSpecialCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// TwoHoursSpecialFilter.getControl().Gc.filter(notEmpty);
+                        TwoHoursSpecialFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        TwoHoursSpecialFilter.setState({"selectedValues":[]});
+                    }
+                    TwoHoursSpecialFilter.draw();
+                };
+                if (TwoHoursSpecialCheck.addEventListener) {  // all browsers except IE before version 9
+                    TwoHoursSpecialCheck.addEventListener("click", TwoHoursSpecialFunction, false);
+                } else {
+                    if (TwoHoursSpecialCheck.attachEvent) {   // IE before version 9
+                        TwoHoursSpecialCheck.attachEvent("click", TwoHoursSpecialFunction);
+                    }
+                }
+
+                //MovieCheckbox filter manipulator
+                var MovieCheck = document.getElementById("MovieCheckbox");		
+                var MovieFunction= function(){
+                    var checkbox = document.getElementById("MovieCheckbox");
+                    if(checkbox.checked){
+                        var newState = ["✔"]// MovieFilter.getControl().Gc.filter(notEmpty);
+                        MovieFilter.setState({"selectedValues":newState});
+                    }
+                    else{
+                        MovieFilter.setState({"selectedValues":[]});
+                    }
+                    MovieFilter.draw();
+                };
+                if (MovieCheck.addEventListener) {  // all browsers except IE before version 9
+                    MovieCheck.addEventListener("click", MovieFunction, false);
+                } else {
+                    if (MovieCheck.attachEvent) {   // IE before version 9
+                        MovieCheck.attachEvent("click", MovieFunction);
+                    }
+                }
+
+                //Set episode counts
+                EpisodesTotal = data.getFilteredRows([{column:7,value:null}]).length;
+                document.getElementById("EpisodesTotal").innerHTML = EpisodesTotal;
+
+                MangaTotal = data.getFilteredRows([{column:2,value:"✔"}]).length; 
+                document.getElementById("MangaTotal").innerHTML = MangaTotal;
+
+                ImportantTotal = data.getFilteredRows([{column:3,value:"✔"}]).length; 
+                document.getElementById("ImportantTotal").innerHTML = ImportantTotal;
+
+                RecommendedTotal = data.getFilteredRows([{column:4,value:"✔"}]).length;
+                document.getElementById("RecommendedTotal").innerHTML = RecommendedTotal;
+
+                Sp1Total = data.getFilteredRows([{column:5,value:"✔"}]).length;
+                document.getElementById("Sp1Total").innerHTML = Sp1Total;
+
+                Sp2Total = data.getFilteredRows([{column:6,value:"✔"}]).length;
+                document.getElementById("Sp2Total").innerHTML = Sp2Total;
+
+                MoviesTotal = data.getFilteredRows([{column:7,value:"✔"}]).length; 
+                document.getElementById("MoviesTotal").innerHTML = MoviesTotal;
+
+                //console.log(data);
+                //console.log(Chart.getView());
+                //Set remaining counts on every dashboard refresh
+                google.visualization.events.addListener(dashboard, 'ready', function(){
+                    var temptable = Chart.getDataTable();
+                    var rows = temptable.getNumberOfRows();
+                    var columns = temptable.getNumberOfColumns();
+                    var NonMangaCount = temptable.getFilteredRows([{column:2,value:null}]).length;
+                    var NonImportantCount = temptable.getFilteredRows([{column:3,value:null}]).length;
+                    var NonRecommendedCount = temptable.getFilteredRows([{column:4,value:null}]).length;
+                    var NonOneHourSpecialCount = temptable.getFilteredRows([{column:5,value:null}]).length;
+                    var NonTwoHoursSpecialCount = temptable.getFilteredRows([{column:6,value:null}]).length;
+                    var NonMoviesCount = temptable.getFilteredRows([{column:7,value:null}]).length;
+
+                    var IsManga = rows - NonMangaCount;
+                    var IsImportant = rows - NonImportantCount;
+                    var IsRecommended = rows - NonRecommendedCount;
+                    var IsOneHourSpecial = rows - NonOneHourSpecialCount;
+                    var IsTwoHoursSpecial = rows - NonTwoHoursSpecialCount;
+                    var IsMovie = rows - NonMoviesCount;
+
+                    document.getElementById("MangaCount").innerHTML = IsManga;
+                    document.getElementById("MangaPercent").innerHTML = (100*(IsManga)/rows).toFixed(0)+" %";
+                    document.getElementById("MangaPercentofEpisodes").innerHTML = (100*(IsManga)/EpisodesTotal).toFixed(0)+" %";
+
+                    document.getElementById("ImportantCount").innerHTML = IsImportant;
+                    document.getElementById("ImportantPercent").innerHTML = (100*(IsImportant)/rows).toFixed(0)+" %";
+                    document.getElementById("ImportantPercentofEpisodes").innerHTML = (100*(IsImportant)/EpisodesTotal).toFixed(0)+" %";
+
+                    document.getElementById("RecommendedCount").innerHTML = IsRecommended;
+                    document.getElementById("RecommendedPercent").innerHTML = (100*(IsRecommended)/rows).toFixed(0)+" %";
+                    document.getElementById("RecommendedPercentofEpisodes").innerHTML = (100*(IsRecommended)/EpisodesTotal).toFixed(0)+" %";
+
+                    document.getElementById("OneHourSpecialCount").innerHTML = IsOneHourSpecial;
+                    document.getElementById("OneHourSpecialPercent").innerHTML = (100*(IsOneHourSpecial)/rows).toFixed(0)+" %";
+                    document.getElementById("OneHourSpecialPercentofEpisodes").innerHTML = (100*(IsOneHourSpecial)/EpisodesTotal).toFixed(0)+" %";
+
+                    document.getElementById("TwoHoursSpecialCount").innerHTML = IsTwoHoursSpecial;
+                    document.getElementById("TwoHoursSpecialPercent").innerHTML = (100*(IsTwoHoursSpecial)/rows).toFixed(0)+" %";
+                    document.getElementById("TwoHoursSpecialPercentofEpisodes").innerHTML = (100*(IsTwoHoursSpecial)/EpisodesTotal).toFixed(0)+" %";
+
+                    document.getElementById("MovieCount").innerHTML = IsMovie;
+                    document.getElementById("MoviePercent").innerHTML = (100*(IsMovie)/rows).toFixed(0)+" %";
+
+                    document.getElementById("totalCount").innerHTML = rows;
+                    //document.getElementById("totalPercent").innerHTML = (100*(Is)/rows).toFixed(0)+"%";
+
+                });
+            }
+
+            function notEmpty(v){
+                return v != "";
+            }
+
+        </script>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("myTopnav");
+                if (x.className === "topnav") {
+                    x.className += " responsive";
+                } else {
+                    x.className = "topnav";
+                }
+            }
+        </script>
+        <style>
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted ghostwhite;
+            }
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 14em;
+                background-color: ghostwhite;
+                color: black;
+                text-align: center;
+                font-size: smaller;
+                font-weight: normal;
+                border-radius: 6px;
+                padding: 5px 0;
+
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 0.75;
+            }    
+
+            .center table, th, td{
+                border: 1px solid #4f4f4f;
+                padding: 2px;
+                color: ghostwhite;
+                text-align: center;
+            }
+            table{
+                border: 2px solid #4f4f4f;
+                border-radius: 5px;
+            }
+            table th {
+                padding: 5px;
+                font-size: 0.90em;
+                font-weight: bold;
+            }
+            .google-visualization-table-th{
+                background: ghostwhite !important;
+                color: #363636;
+                font-family: 'Changa', sans-serif;
+                font-size:1.7em;
+                border: 1px solid ghostwhite !important;
+                border-radius:5px;
+            }
+            .google-visualization-table-td{
+                font-family: 'Changa', sans-serif;
+                font-size: 1.7em;
+                border: 1px solid #4f4f4f !important;
+            }
+            body{
+                font-family: 'Changa', sans-serif;
+                font-size: 1.5em; 
+            }
+            tr:nth-child(even) {background-color: #363636;}
+            tr:nth-child(odd) {background-color: #242424;}
+            .topnav {
+                overflow: hidden;
+                background-color: #363636;
+                border-radius: 5px;
+            }
+
+            .topnav a{
+                float: right;
+                display: block;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 10px 10px;
+                text-decoration: none;
+                font-size: 24px;
+            }
+
+            .topnav a:hover {
+                background-color: ghostwhite;
+                color: black;
+            }
+
+            .active {
+                background-color: #1C60AB;
+                color: ghostwhite;
+            }
+
+            .topnav .icon {
+                display: none;
+            }
+
+            @media screen and (max-width: 600px){
+                .topnav a:not(:first-child) {display: none;}
+                .topnav a.icon {
+                    float: right;
+                    display: block;
+                }
+            }
+
+            @media screen and (max-width: 600px){
+                .topnav.responsive {position: relative;}
+                .topnav.responsive .icon {
+                    position: relative;
+                    top: 0;
+                }
+                .topnav.responsive a{
+                    float: none;
+                    display: block;
+                    text-align: right;
+                }
+            }
+            button{
+                display: inline-block;
+                position: relative;
+                cursor: pointer;
+                color: ghostwhite;
+                border: none;
+                font-size: 2em;
+                width: 6em;
+                margin: 5px;
+                background: #1C60AB
+            }
+
+            span{
+                display: block;
+                padding: 0.4em 0.2em;
+            }
+            button::before, button::after{
+                content:"";
+                width: 0;
+                height: 2px;
+                position: absolute;
+                transition: all 0.2s linear;
+                background: ghostwhite;
+            }
+
+            span::before, span::after{
+                content:"";
+                width:2px;
+                height:0;
+                position: absolute;
+                transition: all 0.2s linear;
+                background: ghostwhite;
+            }
+            button:hover::before, button:hover::after{
+                width: 100%;
+            }
+            button:hover span::before, button:hover span::after{
+                height: 100%;
+            }
+
+            .btn-1::before, .btn-1::after{
+                transition-delay: 0s;
+            }
+            .btn-1 span::before, .btn-1 span::after{
+                transition-delay: 0.2s;
+            }
+            .btn-1::before{
+                left: 0;
+                top: 0;
+            }
+            .btn-1::after{
+                right: 0;
+                bottom: 0;
+            }
+            .btn-1 span::before{
+                right: 0;
+                top: 0;
+            }
+            .btn-1 span::after{
+                left: 0;
+                bottom: 0;
+            }
+            .btn-1:hover::before, .btn-1:hover::after{
+                transition-delay: 0.2s;
+            }
+            .btn-1:hover span::before, .btn-1:hover span::after{
+                transition-delay: 0s;
+            }
+        </style>
+    </head>
+
+    <body dir="rtl"; style="background-color:#242424";> 
+        <div class="topnav" id="myTopnav">
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+            <a href="/alele/">الرئيسية</a>
+            <a href="/alele/guide" class="active">الجدول</a>
+            <a href="/alele/notes">الملاحظات</a>
+            <a href="/alele/links">روابط التحميل</a>
+        </div>
+        <br>
+        <table align="center"; width=95%>
+            <tr style="background-color:#1C60AB;">
+                <th>عدد الحلقات حتى الآن</th>
+                <td id="EpisodesTotal"></td>
+                <td style="background-color:#242424;" colspan="3"></td>
+            </tr>
+            <tr style="background-color:#1C60AB;">
+                <th><div class="tooltip">نوع الحلقات المطلوب<span class="tooltiptext">لمزيد من التوضيح اذهب لصفحة الملاحظات</span></div></th>
+                <th>العدد الكلي</th>
+                <th>أنت حددت</th>
+                <th>% من المحدد</th>
+                <th>% من كل الحلقات</th>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="MangaCheckbox"><div class="tooltip">مانغا<span class="tooltiptext">حلقات أصلية مقتبسة من المانغا خالية من الفلر</span></div></td>
+                <td id="MangaTotal"></td> <!-- this should be the total number of episodes and doesn't change -->
+                <td id="MangaCount"></td>
+                <td id="MangaPercent"></td>
+                <td id="MangaPercentofEpisodes"></td>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="ImportantCheckbox"><div class="tooltip">مهمة<span class="tooltiptext">حلقات مانغا متعلقة بشخصيات أو أحداث تؤثر على القصة</span>
+                    </div></td>
+                <td id="ImportantTotal"></td> <!-- this should be the total number of episodes and doesn't change -->
+                <td id="ImportantCount"></td>
+                <td id="ImportantPercent"></td>
+                <td id="ImportantPercentofEpisodes"></td>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="RecommendedCheckbox"><div class="tooltip">منصوح بها<span class="tooltiptext">حلقات رائعة جدًا أو متعلقة بأحداث وتطور شخصيات ثانوية</span></div></td>
+                <td id="RecommendedTotal"></td> <!-- this should be the total number of episodes and doesn't change -->
+                <td id="RecommendedCount"></td>
+                <td id="RecommendedPercent"></td>
+                <td id="RecommendedPercentofEpisodes"></td>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="OneHourSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعة<span class="tooltiptext">حلقات مدتها أطول من الحلقة العادية</span></div></td>
+                <td id="Sp1Total"></td> <!-- this should be the total number of episodes and doesn't change -->
+                <td id="OneHourSpecialCount"></td>
+                <td id="OneHourSpecialPercent"></td>
+                <td id="OneHourSpecialPercentofEpisodes"></td>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="TwoHoursSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعتين<span class="tooltiptext">حلقات مدتها أطول من الحلقة العادية</span></div></td>
+                <td id="Sp2Total"></td> <!-- this should be the total number of episodes and doesn't change -->
+                <td id="TwoHoursSpecialCount"></td>
+                <td id="TwoHoursSpecialPercent"></td>
+                <td id="TwoHoursSpecialPercentofEpisodes"></td>
+            </tr>
+            <tr>
+                <td><input align="right" type="checkbox" id="MovieCheckbox"><div class="tooltip">فيلم<span class="tooltiptext">أفلام مدتها ساعتين تعرض سنويًا في السينما</span></div></td>
+                <td id="MoviesTotal"></td>
+                <td id="MovieCount"></td>
+                <td id="MoviePercent"></td>
+                <td> - </td><!-- movies are never episodes -->
+            </tr>
+            <tr style="background-color:#1C60AB;"/s>
+                <th colspan="2">المجموع</th>
+                <td id="totalCount" style="background-color:#242424;"></td>
+                <td id="totalPercentofEpisodes" style="background-color:#242424;" colspan="2"></td>
+            </tr>
+        </table>
+        <br>
+        <!--Div that will hold the dashboard-->
+        <div align="center" id="dashboard_div">
+            <!--Divs that will hold each control and chart-->
+            <div align="center" id="mangafilter_div" style="display: none;"></div>
+            <div align="center" id="importantfilter_div" style="display: none;"></div>
+            <div align="center" id="recommendedfilter_div" style="display: none;"></div>
+            <div align="center" id="onehourspecialfilter_div" style="display: none;"></div>
+            <div align="center" id="twohoursspecialfilter_div" style="display: none;"></div>
+            <div align="center" id="moviefilter_div" style="display: none;"></div>
+            <div align="center" id="chart_div"></div>
+        </div>
+    </body>
+    <br>
+</html>
