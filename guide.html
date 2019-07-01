@@ -339,7 +339,7 @@
 
                     document.getElementById("totalCount").innerHTML = rows;
                     //document.getElementById("totalPercent").innerHTML = (100*(Is)/rows).toFixed(0)+"%";
-
+                    
                 });
             }
 
@@ -374,17 +374,24 @@
                 font-weight: normal;
                 border-radius: 6px;
                 padding: 5px 0;
-
                 /* Position the tooltip */
                 position: absolute;
+                right: 4em;
+                top: -0.5em;
                 z-index: 1;
             }
 
             .tooltip:hover .tooltiptext {
                 visibility: visible;
-                opacity: 0.75;
+                opacity: 0.85;
             }    
-
+            .guide thead tr th:first-child {
+              width: 16vmin;
+              min-width: 16vmin;
+              max-width: 16vmin;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
             .center table, th, td{
                 border: 1px solid #4f4f4f;
                 padding: 2px;
@@ -571,7 +578,7 @@
             <tr style="background-color:#1C60AB;">
                 <th>عدد الحلقات حتى الآن</th>
                 <td id="EpisodesTotal"></td>
-                <td style="background-color:#242424;" colspan="3"><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR6AYTbwqo4Ry2A1dgASOpb8pHPlg73B0lPpl_p3QaiBMexC8npGGYAYtkB2ZGhURhQqU_W-MuhnwJP/pub?gid=1203994426&single=true&output=pdf" target="_blank">نسخة PDF من الجدول للطباعة ↓</a></td>
+                <td style="background-color:#242424;" colspan="3"><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR6AYTbwqo4Ry2A1dgASOpb8pHPlg73B0lPpl_p3QaiBMexC8npGGYAYtkB2ZGhURhQqU_W-MuhnwJP/pub?gid=1203994426&single=true&output=pdf" target="_blank">تحميل نسخة PDF من الجدول للطباعة ↓</a></td>
             </tr>
             <tr style="background-color:#1C60AB;">
                 <th><div class="tooltip">نوع الحلقات المطلوب<span class="tooltiptext">لمزيد من التوضيح اذهب لصفحة الملاحظات</span></div></th>
@@ -596,50 +603,52 @@
                 <td id="ImportantPercentofEpisodes"></td>
             </tr>
             <tr>
-                <td><input align="right" type="checkbox" id="RecommendedCheckbox"><div class="tooltip">منصوح بها<span class="tooltiptext">حلقات غير مهمة رائعة جدًا أو متعلقة بأحداث وتطور شخصيات ثانوية، منتقاة بعناية</span></div></td>
+                <td><input align="right" type="checkbox" id="RecommendedCheckbox"><div class="tooltip">منصوح بها<span class="tooltiptext">حلقات رائعة جدًا أو متعلقة بأحداث وتطور شخصيات ثانوية</span></div></td>
                 <td id="RecommendedTotal"></td> <!-- this should be the total number of episodes and doesn't change -->
                 <td id="RecommendedCount"></td>
                 <td id="RecommendedPercent"></td>
                 <td id="RecommendedPercentofEpisodes"></td>
             </tr>
             <tr>
-                <td><input align="right" type="checkbox" id="OneHourSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعة<span class="tooltiptext">الحلقات التي مدتها 48 دقيقة</span></div></td>
+                <td><input align="right" type="checkbox" id="OneHourSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعة<span class="tooltiptext">حلقات مدتها 48 دقيقة</span></div></td>
                 <td id="Sp1Total"></td> <!-- this should be the total number of episodes and doesn't change -->
                 <td id="OneHourSpecialCount"></td>
                 <td id="OneHourSpecialPercent"></td>
                 <td id="OneHourSpecialPercentofEpisodes"></td>
             </tr>
             <tr>
-                <td><input align="right" type="checkbox" id="TwoHoursSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعتين<span class="tooltiptext">الحلقات التي مدتها ساعة ونصف أو ساعتين إلا عشر دقائق</span></div></td>
+                <td><input align="right" type="checkbox" id="TwoHoursSpecialCheckbox"><div class="tooltip">خاصة مدتها ساعتين<span class="tooltiptext">حلقات مدتها ساعة ونصف أو ساعتين إلا 10 دقائق</span></div></td>
                 <td id="Sp2Total"></td> <!-- this should be the total number of episodes and doesn't change -->
                 <td id="TwoHoursSpecialCount"></td>
                 <td id="TwoHoursSpecialPercent"></td>
                 <td id="TwoHoursSpecialPercentofEpisodes"></td>
             </tr>
             <tr>
-                <td><input align="right" type="checkbox" id="MovieCheckbox"><div class="tooltip">فيلم<span class="tooltiptext">أفلام مدتها ساعتين تعرض سنويًا في السينما</span></div></td>
+                <td><input align="right" type="checkbox" id="MovieCheckbox"><div class="tooltip">فيلم<span class="tooltiptext">أفلام فلر مدتها ساعتين تعرض سنويًا في السينما</span></div></td>
                 <td id="MoviesTotal"></td>
                 <td id="MovieCount"></td>
                 <td id="MoviePercent"></td>
                 <td> - </td><!-- movies are never episodes -->
             </tr>
             <tr style="background-color:#1C60AB;"/s>
-                <th colspan="2">المجموع</th>
+                <th colspan="2">مجموع المحدد</th>
                 <td id="totalCount" style="background-color:#242424;"></td>
                 <td id="totalPercentofEpisodes" style="background-color:#242424;" colspan="2"></td>
             </tr>
         </table>
         <br>
         <!--Div that will hold the dashboard-->
-        <div align="center" id="dashboard_div">
-            <!--Divs that will hold each control and chart-->
-            <div align="center" id="mangafilter_div" style="display: none;"></div>
-            <div align="center" id="importantfilter_div" style="display: none;"></div>
-            <div align="center" id="recommendedfilter_div" style="display: none;"></div>
-            <div align="center" id="onehourspecialfilter_div" style="display: none;"></div>
-            <div align="center" id="twohoursspecialfilter_div" style="display: none;"></div>
-            <div align="center" id="moviefilter_div" style="display: none;"></div>
-            <div align="center" id="chart_div"></div>
+        <div class='guide'>
+            <div align="center" id="dashboard_div">
+                <!--Divs that will hold each control and chart-->
+                <div align="center" id="mangafilter_div" style="display: none;"></div>
+                <div align="center" id="importantfilter_div" style="display: none;"></div>
+                <div align="center" id="recommendedfilter_div" style="display: none;"></div>
+                <div align="center" id="onehourspecialfilter_div" style="display: none;"></div>
+                <div align="center" id="twohoursspecialfilter_div" style="display: none;"></div>
+                <div align="center" id="moviefilter_div" style="display: none;"></div>
+                <div align="center" id="chart_div"></div>
+            </div>
         </div>
     </body>
     <br>
