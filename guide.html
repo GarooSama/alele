@@ -156,9 +156,14 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// MangaFilter.getControl().Gc.filter(notEmpty);
                         MangaFilter.setState({"selectedValues":newState});
+                        
+                        // disable MovieCheckBox
+                        document.getElementById("MovieCheckbox").disabled = true;		
                     }
                     else{
                         MangaFilter.setState({"selectedValues":[]});
+                        // enable Movie Check box.
+                        document.getElementById("MovieCheckbox").disabled = false;		
                     }
                     MangaFilter.draw();
                 };
@@ -169,6 +174,7 @@
                         MangaCheck.attachEvent("click", MangaFunction);
                     }
                 }
+
                 //ImportantCheckbox filter manipulator
                 var ImportantCheck = document.getElementById("ImportantCheckbox");		
                 var ImportantFunction= function(){
@@ -176,9 +182,17 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// ImportantFilter.getControl().Gc.filter(notEmpty);
                         ImportantFilter.setState({"selectedValues":newState});
+
+                        // disable recommended check box and movie check box.
+                        document.getElementById("RecommendedCheckbox").disabled = true;
+                        document.getElementById("MovieCheckbox").disabled = true;
                     }
                     else{
                         ImportantFilter.setState({"selectedValues":[]});
+
+                        // enable recommended check box and movie check box.
+                        document.getElementById("RecommendedCheckbox").disabled = false;
+                        document.getElementById("MovieCheckbox").disabled = false;
                     }
                     ImportantFilter.draw();
                 };
@@ -189,6 +203,7 @@
                         ImportantCheck.attachEvent("click", ImportantFunction);
                     }
                 }
+
                 //RecommendedCheckbox filter manipulator
                 var RecommendedCheck = document.getElementById("RecommendedCheckbox");		
                 var RecommendedFunction= function(){
@@ -196,9 +211,15 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// RecommendedFilter.getControl().Gc.filter(notEmpty);
                         RecommendedFilter.setState({"selectedValues":newState});
+
+                        // disable important checkbox.
+                        document.getElementById("ImportantCheckbox").disabled = true;
                     }
                     else{
                         RecommendedFilter.setState({"selectedValues":[]});
+
+                        // enable important checkbox.
+                        document.getElementById("ImportantCheckbox").disabled = false;
                     }
                     RecommendedFilter.draw();
                 };
@@ -209,6 +230,7 @@
                         RecommendedCheck.attachEvent("click", RecommendedFunction);
                     }
                 }
+
                 //OneHourSpecialCheckbox filter manipulator
                 var OneHourSpecialCheck = document.getElementById("OneHourSpecialCheckbox");		
                 var OneHourSpecialFunction= function(){
@@ -216,9 +238,17 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// OneHourSpecialFilter.getControl().Gc.filter(notEmpty);
                         OneHourSpecialFilter.setState({"selectedValues":newState});
+
+                        // disable two hours spical checkbox and movie check box.
+                        document.getElementById("TwoHoursSpecialCheckbox").disabled = true;
+                        document.getElementById("MovieCheckbox").disabled = true;
                     }
                     else{
                         OneHourSpecialFilter.setState({"selectedValues":[]});
+
+                        // enable two hours spical checkbox and movie check box.
+                        document.getElementById("TwoHoursSpecialCheckbox").disabled = false;
+                        document.getElementById("MovieCheckbox").disabled = false;
                     }
                     OneHourSpecialFilter.draw();
                 };
@@ -229,6 +259,7 @@
                         OneHourSpecialCheck.attachEvent("click", OneHourSpecialFunction);
                     }
                 }
+
                 //TwoHoursSpecialCheckbox filter manipulator
                 var TwoHoursSpecialCheck = document.getElementById("TwoHoursSpecialCheckbox");		
                 var TwoHoursSpecialFunction= function(){
@@ -236,9 +267,17 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// TwoHoursSpecialFilter.getControl().Gc.filter(notEmpty);
                         TwoHoursSpecialFilter.setState({"selectedValues":newState});
+
+                        // disable one hour spical checkbox and movie check box.
+                        document.getElementById("OneHourSpecialCheckbox").disabled = true;
+                        document.getElementById("MovieCheckbox").disabled = true;
                     }
                     else{
                         TwoHoursSpecialFilter.setState({"selectedValues":[]});
+
+                        // enable one hours spical checkbox and movie check box.
+                        document.getElementById("OneHourSpecialCheckbox").disabled = false;
+                        document.getElementById("MovieCheckbox").disabled = false;
                     }
                     TwoHoursSpecialFilter.draw();
                 };
@@ -257,9 +296,21 @@
                     if(checkbox.checked){
                         var newState = ["✔"]// MovieFilter.getControl().Gc.filter(notEmpty);
                         MovieFilter.setState({"selectedValues":newState});
+
+                        // disable all checkboxes except recommended.
+                        document.getElementById("MangaCheckbox").disabled = true;
+                        document.getElementById("ImportantCheckbox").disabled = true;
+                        document.getElementById("TwoHoursSpecialCheckbox").disabled = true;
+                        document.getElementById("OneHourSpecialCheckbox").disabled = true;
                     }
                     else{
                         MovieFilter.setState({"selectedValues":[]});
+
+                        // enable all checkboxes except recommended.
+                        document.getElementById("MangaCheckbox").disabled = false;
+                        document.getElementById("ImportantCheckbox").disabled = false;
+                        document.getElementById("TwoHoursSpecialCheckbox").disabled = false;
+                        document.getElementById("OneHourSpecialCheckbox").disabled = false;
                     }
                     MovieFilter.draw();
                 };
@@ -293,8 +344,6 @@
                 MoviesTotal = data.getFilteredRows([{column:7,value:"✔"}]).length; 
                 document.getElementById("MoviesTotal").innerHTML = MoviesTotal;
 
-                //console.log(data);
-                //console.log(Chart.getView());
                 //Set remaining counts on every dashboard refresh
                 google.visualization.events.addListener(dashboard, 'ready', function(){
                     var temptable = Chart.getDataTable();
@@ -338,8 +387,7 @@
                     document.getElementById("MoviePercent").innerHTML = (100*(IsMovie)/rows).toFixed(0)+" %";
 
                     document.getElementById("totalCount").innerHTML = rows;
-                    //document.getElementById("totalPercent").innerHTML = (100*(Is)/rows).toFixed(0)+"%";
-                    
+                       
                 });
             }
 
