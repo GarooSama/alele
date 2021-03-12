@@ -154,7 +154,7 @@
                 var MangaFunction= function(){
                     var checkbox = document.getElementById("MangaCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// MangaFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// MangaFilter.getControl().Gc.filter(notEmpty);
                         MangaFilter.setState({"selectedValues":newState});
                         
                         // disable MovieCheckBox
@@ -180,7 +180,7 @@
                 var ImportantFunction= function(){
                     var checkbox = document.getElementById("ImportantCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// ImportantFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// ImportantFilter.getControl().Gc.filter(notEmpty);
                         ImportantFilter.setState({"selectedValues":newState});
 
                         // disable recommended check box and movie check box.
@@ -209,7 +209,7 @@
                 var RecommendedFunction= function(){
                     var checkbox = document.getElementById("RecommendedCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// RecommendedFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// RecommendedFilter.getControl().Gc.filter(notEmpty);
                         RecommendedFilter.setState({"selectedValues":newState});
 
                         // disable important checkbox.
@@ -236,7 +236,7 @@
                 var OneHourSpecialFunction= function(){
                     var checkbox = document.getElementById("OneHourSpecialCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// OneHourSpecialFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// OneHourSpecialFilter.getControl().Gc.filter(notEmpty);
                         OneHourSpecialFilter.setState({"selectedValues":newState});
 
                         // disable two hours spical checkbox and movie check box.
@@ -265,7 +265,7 @@
                 var TwoHoursSpecialFunction= function(){
                     var checkbox = document.getElementById("TwoHoursSpecialCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// TwoHoursSpecialFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// TwoHoursSpecialFilter.getControl().Gc.filter(notEmpty);
                         TwoHoursSpecialFilter.setState({"selectedValues":newState});
 
                         // disable one hour spical checkbox and movie check box.
@@ -294,7 +294,7 @@
                 var MovieFunction= function(){
                     var checkbox = document.getElementById("MovieCheckbox");
                     if(checkbox.checked){
-                        var newState = ["✔"]// MovieFilter.getControl().Gc.filter(notEmpty);
+                        var newState = ["نعم"]// MovieFilter.getControl().Gc.filter(notEmpty);
                         MovieFilter.setState({"selectedValues":newState});
 
                         // disable all checkboxes except recommended.
@@ -326,22 +326,22 @@
                 EpisodesTotal = data.getFilteredRows([{column:7,value:null}]).length;
                 document.getElementById("EpisodesTotal").innerHTML = EpisodesTotal;
 
-                MangaTotal = data.getFilteredRows([{column:2,value:"✔"}]).length; 
+                MangaTotal = data.getFilteredRows([{column:2,value:"نعم"}]).length; 
                 document.getElementById("MangaTotal").innerHTML = MangaTotal;
 
-                ImportantTotal = data.getFilteredRows([{column:3,value:"✔"}]).length; 
+                ImportantTotal = data.getFilteredRows([{column:3,value:"نعم"}]).length; 
                 document.getElementById("ImportantTotal").innerHTML = ImportantTotal;
 
-                RecommendedTotal = data.getFilteredRows([{column:4,value:"✔"}]).length;
+                RecommendedTotal = data.getFilteredRows([{column:4,value:"نعم"}]).length;
                 document.getElementById("RecommendedTotal").innerHTML = RecommendedTotal;
 
-                Sp1Total = data.getFilteredRows([{column:5,value:"✔"}]).length;
+                Sp1Total = data.getFilteredRows([{column:5,value:"نعم"}]).length;
                 document.getElementById("Sp1Total").innerHTML = Sp1Total;
 
-                Sp2Total = data.getFilteredRows([{column:6,value:"✔"}]).length;
+                Sp2Total = data.getFilteredRows([{column:6,value:"نعم"}]).length;
                 document.getElementById("Sp2Total").innerHTML = Sp2Total;
 
-                MoviesTotal = data.getFilteredRows([{column:7,value:"✔"}]).length; 
+                MoviesTotal = data.getFilteredRows([{column:7,value:"نعم"}]).length; 
                 document.getElementById("MoviesTotal").innerHTML = MoviesTotal;
 
                 //Set remaining counts on every dashboard refresh
